@@ -4,6 +4,7 @@ const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
+const uuid = require("uuid");
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
@@ -11,9 +12,9 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 
 
-// Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
-
+// Using inquirer to gather information about the development team members,
+// and to create objects for each team member (using the classes as blueprints)
+start();
 let arr = [];
 
 function start() {
@@ -23,7 +24,7 @@ function start() {
                 type: "list",
                 name: "role",
                 message: "What is the employee's job role?",
-                choices: ["Engineer", "Manager", "Intern"]
+                choices: ["Engineer", "Manager", "Intern", "I'm finished"]
             }
         ])
         .then(function (answer) {
@@ -36,11 +37,16 @@ function start() {
             else if (answer.role === "Intern") {
                 askIntern();
             }
+            else if (answer.role === "I'm finished") {
+                buildTeam();
+            }
         })
 }
 
-function buildTeam(){
-    
+function buildTeam() {
+        let thing = render(arr);
+   
+        fs.writeFileSync(outputPath, thing)
 }
 
 function askEngineer() {
@@ -62,10 +68,14 @@ function askEngineer() {
                 message: "What is the employee's GitHub username?"
             }
         ])
-        .then(function (answer){
-let eng = new Engineer(answer.engName, answer.engEmail, answer.engGithub);
-arr.push(eng);
+        .then(function (answer) {
+            let id =  uuid.v4();
+            let eng = new Engineer(id, answer.engName, answer.engEmail, answer.engGithub);
+            arr.push(eng);
+            console.log("Saved!")
+            start();
         })
+     
 }
 
 function askManager() {
@@ -87,9 +97,14 @@ function askManager() {
                 message: "What is the manager's office phone number?"
             }
         ])
-        .then(function (answer){
-          push  
+        .then(function (answer) {
+            let id =  uuid.v4();
+            let mgr = new Manager(id, answer.mgrName, answer.mgrEmail, answer.mgrOfficeNum);
+            arr.push(mgr);
+            console.log("Saved!")
+            start();
         })
+      
 }
 
 function askIntern() {
@@ -111,14 +126,14 @@ function askIntern() {
                 message: "What school does the intern attend?"
             }
         ])
-        .then(function (){
-            // const engineer = new Engineer(16, 'sailboat', boatPassengers);
-            render();
-            (err, answer) => {
-                if (err) throw err;
-                fs.writeFileSync (outputPath, answer);
-            }
+        .then(function (answer) {
+            let id =  uuid.v4();
+            let int = new Intern(id, answer.intName, answer.intEmail, answer.intSchool);
+            arr.push(int);
+            console.log("Saved!")
+            start();
         })
+      
 }
 
 // After the user has input all employees desired, call the `render` function (required
@@ -128,11 +143,5 @@ function askIntern() {
 // After you have your html, you're now ready to create an HTML file using the HTML
 // returned from the `render` function. Now write it to a file named `team.html` in the
 // `output` folder. You can use the variable `outputPath` above target this location.
-// Hint: you may need to check if the `output` folder exists and create it if it
-// does not.
 
-// HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
-// and Intern classes should all extend from a class named Employee; see the directions
-// for further information. Be sure to test out each class and verify it generates an
-// object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work! ```
+
