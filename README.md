@@ -29,8 +29,5 @@ This application contains these classes: `Employee`, `Manager`, `Engineer`,
 <img width="958" alt="Screenshot 2021-02-12 180306" src="https://user-images.githubusercontent.com/67657449/107832120-98ed3280-6d5d-11eb-933c-308d4305732b.png">
 
 
-### Link to application: 
-* https://kaitlinkenney.github.io/employee-summaries/
-
 ### Link to Screencastify video: 
 https://drive.google.com/file/d/1RoUSdgg4jS6YNtCAY8m2OiRaPcgCyKhL/view
