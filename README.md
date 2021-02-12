@@ -31,3 +31,6 @@ This application contains these classes: `Employee`, `Manager`, `Engineer`,
 
 ### Link to application: 
 * https://kaitlinkenney.github.io/employee-summaries/
+
+### Link to Screencastify video: 
+https://drive.google.com/file/d/1RoUSdgg4jS6YNtCAY8m2OiRaPcgCyKhL/view
